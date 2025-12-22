@@ -12,12 +12,12 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    api_key = os.environ.get("OPENAI_API_KEY")
 
     client = create_client(
-        provider="anthropic",
+        provider="openai",
         api_key=api_key,
-        model="claude-haiku-4-5-20251001",
+        model="gpt-5-nano-2025-08-07",
     )
 
     # With system prompt and temperature
@@ -25,12 +25,14 @@ if __name__ == "__main__":
         messages=[
             {
                 "role": "user",
-                "content": "Hello, Claude",
+                "content": "Hello, GPT-5 Nano",
             }
         ],
         max_tokens=1024,
         system="You should end every response with ':)'",
-        temperature=0.0,
+        reasoning={
+            "effort": "minimal",
+        },
     )
 
     logger.info(response.text)
@@ -40,10 +42,13 @@ if __name__ == "__main__":
         messages=[
             {
                 "role": "user",
-                "content": "Hello, Claude",
+                "content": "Hello, GPT-5 Nano",
             }
         ],
         max_tokens=1024,
+        reasoning={
+            "effort": "minimal",
+        },
     )
 
     logger.info(response.text)
