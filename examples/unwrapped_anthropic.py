@@ -25,9 +25,16 @@ if __name__ == "__main__":
                 "content": "Hello, Claude",
             }
         ],
-        max_tokens=1024,
+        max_tokens=2048,
         system="You should end every response with ':)'",
-        temperature=0.0,
+        thinking={
+            "type": "enabled",
+            "budget_tokens": 1024,
+        },
     )
 
-    logger.info(message.content[0].text)
+    logging.info(message)
+
+    text = next(block.text for block in message.content if block.type == "text")
+
+    logger.info(text)
