@@ -15,6 +15,7 @@ class AnthropicClient(Client):
         system: str | None = None,
         max_tokens: int = 1024,
         temperature: float | None = None,
+        reasoning: dict | None = None,
     ) -> LLMResponse:
         request = {
             "model": self._model,
@@ -25,7 +26,9 @@ class AnthropicClient(Client):
             request["system"] = system
         if temperature is not None:
             request["temperature"] = temperature
+        if reasoning is not None:
+            request["thinking"] = reasoning
 
         message = self._client.messages.create(**request)
-        text = message.content[0].text if message.content else ""
+        text = next(block.text for block in message.content if block.type == "text")
         return LLMResponse(text=text, raw=message)
