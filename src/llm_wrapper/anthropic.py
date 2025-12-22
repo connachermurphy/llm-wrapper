@@ -1,9 +1,9 @@
 from anthropic import Anthropic
 
-from .base import BaseClient, LLMResponse, Message
+from .base import Client, LLMResponse, Message
 
 
-class AnthropicClient(BaseClient):
+class AnthropicClient(Client):
     def __init__(self, *, api_key: str, model: str) -> None:
         self._client = Anthropic(api_key=api_key)
         self._model = model

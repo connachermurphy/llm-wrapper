@@ -12,7 +12,7 @@ class LLMResponse:
     raw: object | None = None
 
 
-class BaseClient(ABC):
+class Client(ABC):
     @abstractmethod
     def generate(
         self,
@@ -25,7 +25,7 @@ class BaseClient(ABC):
         raise NotImplementedError
 
 
-def _providers() -> dict[str, type[BaseClient]]:
+def _providers() -> dict[str, type[Client]]:
     from .anthropic import AnthropicClient
 
     return {
@@ -33,7 +33,7 @@ def _providers() -> dict[str, type[BaseClient]]:
     }
 
 
-def create_client(*, provider: str, api_key: str, model: str) -> BaseClient:
+def create_client(*, provider: str, api_key: str, model: str) -> Client:
     providers = _providers()
     if provider not in providers:
         raise ValueError(f"Unsupported provider: {provider}")
