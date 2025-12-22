@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Sequence
 
-
 Message = dict[str, object]
 
 
@@ -27,9 +26,11 @@ class Client(ABC):
 
 def _providers() -> dict[str, type[Client]]:
     from .anthropic import AnthropicClient
+    from .openai import OpenAIClient
 
     return {
         "anthropic": AnthropicClient,
+        "openai": OpenAIClient,
     }
 
 
