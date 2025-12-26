@@ -22,7 +22,7 @@ if __name__ == "__main__":
         messages=[
             {
                 "role": "user",
-                "content": "Hello, Claude",
+                "content": "Can you introduce yourself?",
             }
         ],
         max_tokens=2048,
@@ -33,8 +33,26 @@ if __name__ == "__main__":
         },
     )
 
-    logging.info(message)
+    # Report full response
+    logger.info("Full response:")
+    logger.info(message)
 
-    text = next(block.text for block in message.content if block.type == "text")
+    # Initialize text and reasoning strings
+    text = []
+    reasoning = []
 
+    # Extract text and reasoning
+    for block in message.content:
+        if block.type == "text":
+            text.append(block.text)
+        elif block.type == "thinking":
+            reasoning.append(block.thinking)
+
+    text = "\n".join(text).strip()
+    reasoning = "\n".join(reasoning).strip()
+
+    logger.info("Text:")
     logger.info(text)
+
+    logger.info("Reasoning:")
+    logger.info(reasoning)

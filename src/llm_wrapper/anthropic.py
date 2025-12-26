@@ -3,6 +3,23 @@ from anthropic import Anthropic
 from .base import Client, LLMResponse, Message
 
 
+# TODO: type response
+def _extract_text_and_reasoning(response) -> tuple[str, str]:
+    text = []
+    reasoning = []
+
+    for block in response.content:
+        if block.type == "text":
+            text.append(block.text)
+        elif block.type == "thinking":
+            reasoning.append(block.thinking)
+
+    text = "\n".join(text).strip()
+    reasoning = "\n".join(reasoning).strip()
+
+    return text, reasoning
+
+
 class AnthropicClient(Client):
     def __init__(self, *, api_key: str, model: str) -> None:
         self._client = Anthropic(api_key=api_key)
@@ -29,6 +46,10 @@ class AnthropicClient(Client):
         if reasoning is not None:
             request["thinking"] = reasoning
 
-        message = self._client.messages.create(**request)
-        text = next(block.text for block in message.content if block.type == "text")
-        return LLMResponse(text=text, raw=message)
+        response = self._client.messages.create(**request)
+
+        response_text, response_reasoning = _extract_text_and_reasoning(response)
+
+        return LLMResponse(
+            text=response_text, reasoning=response_reasoning, raw=response
+        )
