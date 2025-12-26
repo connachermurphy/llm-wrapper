@@ -20,35 +20,51 @@ if __name__ == "__main__":
         model="gpt-5-nano-2025-08-07",
     )
 
-    # With system prompt and temperature
+    # With system prompt
     response = client.generate(
         messages=[
             {
                 "role": "user",
-                "content": "Hello, GPT-5 Nano",
+                "content": "Can you introduce yourself?",
             }
         ],
-        max_tokens=1024,
+        max_tokens=2048,
         system="You should end every response with ':)'",
         reasoning={
-            "effort": "minimal",
+            "effort": "medium",
+            "summary": "auto",
         },
     )
 
+    logger.info("Full response:")
+    logger.info(response)
+
+    logger.info("Text:")
     logger.info(response.text)
 
-    # Without system prompt and temperature
+    logger.info("Reasoning:")
+    logger.info(response.reasoning)
+
+    # Without system prompt
     response = client.generate(
         messages=[
             {
                 "role": "user",
-                "content": "Hello, GPT-5 Nano",
+                "content": "Can you introduce yourself?",
             }
         ],
-        max_tokens=1024,
+        max_tokens=2048,
         reasoning={
-            "effort": "minimal",
+            "effort": "medium",
+            "summary": "auto",
         },
     )
 
+    logger.info("Full response:")
+    logger.info(response)
+
+    logger.info("Text:")
     logger.info(response.text)
+
+    logger.info("Reasoning:")
+    logger.info(response.reasoning)

@@ -20,30 +20,51 @@ if __name__ == "__main__":
         model="claude-haiku-4-5-20251001",
     )
 
-    # With system prompt and temperature
+    # With system prompt
     response = client.generate(
         messages=[
             {
                 "role": "user",
-                "content": "Hello, Claude",
+                "content": "Can you introduce yourself?",
             }
         ],
-        max_tokens=1024,
+        max_tokens=2048,
         system="You should end every response with ':)'",
-        temperature=0.0,
+        reasoning={
+            "type": "enabled",
+            "budget_tokens": 1024,
+        },
     )
 
+    logger.info("Full response:")
+    logger.info(response)
+
+    logger.info("Text:")
     logger.info(response.text)
 
-    # Without system prompt and temperature
+    logger.info("Reasoning:")
+    logger.info(response.reasoning)
+
+    # Without system prompt
     response = client.generate(
         messages=[
             {
                 "role": "user",
-                "content": "Hello, Claude",
+                "content": "Can you introduce yourself?",
             }
         ],
-        max_tokens=1024,
+        max_tokens=2048,
+        reasoning={
+            "type": "enabled",
+            "budget_tokens": 1024,
+        },
     )
 
+    logger.info("Full response:")
+    logger.info(response)
+
+    logger.info("Text:")
     logger.info(response.text)
+
+    logger.info("Reasoning:")
+    logger.info(response.reasoning)

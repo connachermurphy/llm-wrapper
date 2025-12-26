@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Sequence
+from typing import Any, Sequence
 
 Message = dict[str, object]
 
@@ -8,6 +8,7 @@ Message = dict[str, object]
 @dataclass(frozen=True)
 class LLMResponse:
     text: str
+    reasoning: str | None = None
     raw: object | None = None
 
 
@@ -20,6 +21,7 @@ class Client(ABC):
         system: str | None = None,
         max_tokens: int = 1024,
         temperature: float | None = None,
+        reasoning: dict[str, Any] | None = None,
     ) -> LLMResponse:
         raise NotImplementedError
 
