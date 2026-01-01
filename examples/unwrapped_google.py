@@ -18,6 +18,7 @@ if __name__ == "__main__":
     )
 
     print(response.text)
+    print(response)
 
 # api_key = os.environ.get("GEMINI_API_KEY")
 
@@ -124,3 +125,29 @@ if __name__ == "__main__":
 # )
 
 # print(response.text)
+
+# Example of client-side state management:
+# from google import genai
+
+# client = genai.Client()
+
+# conversation_history = [
+#     {"role": "user", "content": "What are the three largest cities in Spain?"}
+# ]
+
+# interaction1 = client.interactions.create(
+#     model="gemini-3-flash-preview", input=conversation_history
+# )
+
+# print(f"Model: {interaction1.outputs[-1].text}")
+
+# conversation_history.append({"role": "model", "content": interaction1.outputs})
+# conversation_history.append(
+#     {"role": "user", "content": "What is the most famous landmark in the second one?"}
+# )
+
+# interaction2 = client.interactions.create(
+#     model="gemini-3-flash-preview", input=conversation_history
+# )
+
+# print(f"Model: {interaction2.outputs[-1].text}")
