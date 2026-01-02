@@ -28,10 +28,12 @@ class Client(ABC):
 
 def _providers() -> dict[str, type[Client]]:
     from .anthropic import AnthropicClient
+    from .google import GoogleClient
     from .openai import OpenAIClient
 
     return {
         "anthropic": AnthropicClient,
+        "google": GoogleClient,
         "openai": OpenAIClient,
     }
 
