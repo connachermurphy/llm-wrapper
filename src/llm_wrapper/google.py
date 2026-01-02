@@ -37,18 +37,24 @@ class GoogleClient(Client):
         temperature: float | None = None,
         reasoning: dict | None = None,
     ) -> LLMResponse:
+        contents = system + "\n" if system is not None else ""
+
+        contents += "Messages:\n"
+        for message in messages:
+            contents += f"{message['role']}: {message['content']}\n"
+
         request = {
             "model": self._model,
-            "contents": "Please introduce yourself. Please end your response with ':)'",
-            "config": types.GenerateContentConfig(
-                thinking_config=types.ThinkingConfig(
-                    include_thoughts=True, thinking_level="low"
-                )
-            ),
+            "contents": contents,
         }
 
+        if reasoning is not None:
+            request["config"] = types.GenerateContentConfig(
+                thinking_config=types.ThinkingConfig(**reasoning)
+            )
+
+        # TODO: max_tokens
         # TODO: build request object
-        # TODO: concatenate messages and system prompt into "contents" string
         # TODO: configure temperature
 
         response = self._client.models.generate_content(**request)

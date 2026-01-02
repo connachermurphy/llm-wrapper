@@ -31,8 +31,8 @@ if __name__ == "__main__":
         max_tokens=2048,
         system="You should end every response with ':)'",
         reasoning={
-            "effort": "medium",
-            "summary": "auto",
+            "include_thoughts": True,
+            "thinking_level": "low",
         },
     )
 
@@ -55,8 +55,8 @@ if __name__ == "__main__":
         ],
         max_tokens=2048,
         reasoning={
-            "effort": "medium",
-            "summary": "auto",
+            "include_thoughts": True,
+            "thinking_level": "low",
         },
     )
 
