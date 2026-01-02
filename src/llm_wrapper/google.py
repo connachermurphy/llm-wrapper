@@ -48,14 +48,19 @@ class GoogleClient(Client):
             "contents": contents,
         }
 
+        # Build the GenerateContentConfig object
+        request_generate_content_config = {
+            "maxOutputTokens": max_tokens,
+        }
+        if temperature is not None:
+            request_generate_content_config["temperature"] = temperature
         if reasoning is not None:
-            request["config"] = types.GenerateContentConfig(
-                thinking_config=types.ThinkingConfig(**reasoning)
+            request_generate_content_config["thinking_config"] = types.ThinkingConfig(
+                **reasoning
             )
-
-        # TODO: max_tokens
-        # TODO: build request object
-        # TODO: configure temperature
+        request["config"] = types.GenerateContentConfig(
+            **request_generate_content_config
+        )
 
         response = self._client.models.generate_content(**request)
 
